@@ -1133,7 +1133,6 @@ cars.forEach(currentCar => {
         models[model] = 1
     }
 })
-
 const modelsSortable = [];
 for (model in models) {
     modelsSortable.push([model, models[model]])
