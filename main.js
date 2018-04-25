@@ -1146,21 +1146,43 @@ console.log (modelsSortable)
 
 // Which bank provided the most loans to our customers? (J.P.Morgan Chase & Co)
 
-const banks = {}
-cars.forEach(currentCar => {
-    const bank = currentCar.credit.credit_provider
-    if (bank in banks) {
-        banks[bank]++
-    } else {
-        banks[bank] = 1
-    }
-})
-const banksSortable = [];
-for (bank in banks) {
-    banksSortable.push([bank, banks[bank]])
-}
+// const banks = {}
+// cars.forEach(currentCar => {
+//     const bank = currentCar.credit.credit_provider
+//     if (bank in banks) {
+//         banks[bank]++
+//     } else {
+//         banks[bank] = 1
+//     }
+// })
+// const banksSortable = [];
+// for (bank in banks) {
+//     banksSortable.push([bank, banks[bank]])
+// }
 
-banksSortable.sort(function(a, b) {
-    return b[1] - a[1];
-});
-console.log(banksSortable)
+// banksSortable.sort(function(a, b) {
+//     return b[1] - a[1];
+// });
+// console.log(banksSortable)
+
+
+
+//Same problem for the bank info, but using a Map
+// 1. In which month did they sell the most cars?
+const banks = cars.reduce((banks, sale) => {
+    const bank = sale.credit.credit_provider
+    if (!banks.has(bank)) {
+        banks.set(bank, 1)
+    } else {
+        banks.set(bank, banks.get(bank) + 1)
+    }
+    return banks
+}, new Map())
+
+const arrayOfBanks = [...banks.entries()]
+
+const sortedArrayOfBanks = arrayOfBanks.sort(
+    (c, p) => p[1] - c[1]
+)
+
+const topSales = sortedArrayOfBanks.shift()
